@@ -10,6 +10,15 @@ interface HeaderProps {
   searchPlaceholder?: string;
 }
 
+// Declare global interface for the Image constructor
+declare global {
+  interface Window {
+    Image: {
+      new(): HTMLImageElement;
+    }
+  }
+}
+
 const AnimatedHeader: React.FC<HeaderProps> = ({
   images,
   interval = 5000, // Default to 5 seconds
@@ -48,9 +57,11 @@ const AnimatedHeader: React.FC<HeaderProps> = ({
     if (!isMounted) return;
 
     images.forEach((src) => {
-      // Create an HTMLImageElement properly with the global constructor
-      const img = new (window as any).Image();
-      img.src = src;
+      // Create an HTMLImageElement properly with type safety
+      if (typeof window !== 'undefined') {
+        const img = new window.Image();
+        img.src = src;
+      }
     });
   }, [images, isMounted]);
 
@@ -125,8 +136,7 @@ const AnimatedHeader: React.FC<HeaderProps> = ({
               priority={index === 0}
               sizes="100vw"
             />
-            {/* Overlay
-            // <div className="absolute inset-0 bg-black bg-opacity-40"></div> */}
+            {/* Overlay */}
             <div
               className="absolute inset-0"
               style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}

@@ -28,7 +28,7 @@ const VenueCarousel: React.FC<VenueCarouselProps> = ({
   items, 
   type = 'bars'
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+ 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
